@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
+
 class HappinessSurvey(models.Model):
     subject: models.CharField(max_length=100)
     body: models.TextField()
@@ -101,21 +102,36 @@ class Badge(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
 
 
+class Role(models.Model):
+
+    ROLE_CHOICES = [
+        ('super_admin', 'Super Admin'),
+        ('admin', 'Admin'),
+        ('agent', 'Agent'),
+        ('end_user', 'End-User'),
+        ('staff', 'Staff'),
+    ]
+
+    type = models.IntegerField(choices=ROLE_CHOICES, default= "end_user")
+    description = models.CharField(max_length=200, default='')
+
+
 class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics', )
-    address1 = models.CharField(max_length=300, default='')
-    address2 = models.CharField(max_length=300, default='', blank=True)
+    address1 = models.CharField(max_length=200, default='')
+    address2 = models.CharField(max_length=200, default='', blank=True)
     bio = models.TextField()
     phone = models.CharField(max_length=25, default='', blank=True)
     city = models.CharField(max_length=150, default='')
-    state = models.CharField(max_length=150, default='')
+    state = models.CharField(max_length=50, default='')
     zip = models.CharField(max_length=10, default='')
-    country = models.CharField(max_length=3, default='Canada')
+    country = models.country()
     is_active = models.BooleanField(default=True)
     is_customer = models.BooleanField(default=True)
     badges = models.ManyToManyField(Badge)
+    roles = models.ManyToManyField(Role)
 
 
 class AddressBook(models.Model):
@@ -227,7 +243,8 @@ class Account(models.Model):
     attachments: models.ManyToManyField(Attachment)
     integrations: models.ManyToManyField(Integration)
     review_requests: models.ManyToManyField(ReviewRequest)
-    subscription: models.OneToOneField(Subscription)
+    users: models.ManyToManyField(User, on_delete = models.CASCADE)
+    subscription: models.OneToOneField(Subscription, on_delete=models.CASCADE)
     date_created = models.DateTimeField(default=timezone.now)
     date_suspended = models.DateTimeField(null=True)
     date_cancelled = models.DateTimeField(null=True)
