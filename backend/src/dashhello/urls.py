@@ -9,6 +9,9 @@ urlpatterns = [
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 
     path('', include('tickets.urls')),
+    path('', include('integrations.urls')),
+    path('', include('accounts.urls')),
+    path('', include('users.urls')),
     path('', include('articles.urls')),
 ]
 

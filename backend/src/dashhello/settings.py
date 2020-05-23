@@ -31,12 +31,20 @@ INSTALLED_APPS = [
     'rest_auth.registration',
 
     'django.contrib.sites',
+    'corsheaders',
     'allauth',
     'allauth.account',
 
     'tickets',
     'articles',
-    'corsheaders',
+    'integrations',
+    'users',
+    'accounts',
+    'surveys',
+    'plans',
+    'timezone_field',
+
+    'django_pdb',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -83,12 +91,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'dashhello.wsgi.application'
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication', ),
 }
 
 # Database
@@ -150,3 +154,5 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+DOMAIN = 'dashhello.com'
